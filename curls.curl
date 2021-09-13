@@ -1,0 +1,21 @@
+curl -i -X POST \
+        --url http://localhost:8001/services/ \
+        --data 'name=cookie-service' \
+        --data 'url=http://yerkee.com/api/fortune'
+
+
+curl -i -X POST \
+        --url http://localhost:8001/services/cookie-service/routes \
+        --data 'hosts[]=yerkee.com'
+
+curl -i -X POST \
+        --url http://localhost:8001/services/cookie-service/plugins/ \
+        --data 'name=rate-limiting' \
+        --data 'config.policy=hazelcast' \
+        --data 'config.hazelcast_port=5701' \
+        --data 'config.hazelcast_host=localhost' \
+        --data 'config.minute=1'
+
+curl -i -X GET \
+        --url http://localhost:8000/ \
+        --header 'Host: example.com'
